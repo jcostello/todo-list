@@ -8,8 +8,8 @@ export const addTodo = (text) => {
   return axios.post('/todos.json', {text: text, completed: false});
 };
 
-export const toggleTodo = (id) => {
-  return axios.put(`/todos/${id}.json`, {completed: true});
+export const toggleTodo = (todo) => {
+  return axios.put(`/todos/${todo.id}.json`, todo);
 };
 
 export const deleteTodo = (id) => {

@@ -7,14 +7,14 @@ const TodosReducer = (state = initialState, action) => {
       return state.concat({
         id: todo.id,
         text: todo.text,
-        completed: todo.completed,
+        completed: false,
       });
 
     case 'FETCH_TODOS_SUCCEEDED':
       const fetchedOrders = [];
 
-      for (let key in action.todos) {
-        fetchedOrders.push({ ...action.todos[key], id: key });
+      for (const key in action.todos) {
+        fetchedOrders.push({...action.todos[key], id: key});
       }
 
       return fetchedOrders;

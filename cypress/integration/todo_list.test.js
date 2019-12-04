@@ -1,23 +1,25 @@
 context('Add Todo', () => {
-  const todos = [
-    {id: 1, text: 'Test 1', completed: false},
-    {id: 2, text: 'Test 2', completed: true},
-  ];
+  const responseTodos = {
+    1: {text: 'Test 1', completed: false},
+    2: {text: 'Test 2', completed: true},
+  };
+
+  const responseKeys = Object.keys(responseTodos);
 
   beforeEach(() => {
     cy.server();
-    cy.route('GET', 'https://todo-list-2578a.firebaseio.com/todos.json', todos);
+    cy.route('GET', 'https://todo-list-2578a.firebaseio.com/todos.json', responseTodos);
     cy.visit('/');
   });
 
   describe('When loading the page', () => {
     it('fetchs all the todos', () => {
       cy.get('.todo-list li')
-          .should('have.length', todos.length);
+          .should('have.length', responseKeys.length);
 
       cy.get('.todo-list li')
-          .should('contain', todos[0].text)
-          .and('contain', todos[1].text);
+          .should('contain', responseTodos[responseKeys[0]].text)
+          .and('contain', responseTodos[responseKeys[1]].text);
 
       cy.get('.todo-list li.completed')
           .should('have.length', 1);
@@ -26,9 +28,12 @@ context('Add Todo', () => {
 
   describe('When clicking on a todo\'s checkbox', () => {
     it('toggles the todo completed status', () => {
+      const id = responseKeys[0];
+      let todo = responseTodos[id];
+
       cy.route('PUT',
-          `https://todo-list-2578a.firebaseio.com/todos/${todos[0].id}.json`,
-          {...todos[0], completed: !todos[0].completed});
+          `https://todo-list-2578a.firebaseio.com/todos/${id}.json`,
+          {...todo, completed: !todo.completed, id: id});
 
       cy.get('.todo-list li')
           .first()
@@ -46,6 +51,10 @@ context('Add Todo', () => {
       cy.get('@first-todo')
           .should('have.class', 'completed');
 
+      cy.route('PUT',
+          `https://todo-list-2578a.firebaseio.com/todos/${id}.json`,
+          {...todo, completed: todo.completed, id: id});
+
       cy.get('@first-todo-toggle')
           .click()
           .should('not.be.checked');
@@ -58,23 +67,25 @@ context('Add Todo', () => {
     });
   });
 
-  describe.only('When clicking on a todo\'s trash can', () => {
+  describe('When clicking on a todo\'s trash can', () => {
     it('removes the todo from the list', () => {
-      cy.route('DELETE', `https://todo-list-2578a.firebaseio.com/todos/${todos[0].id}.json`,
-          {...todos[0]});
+      const id = responseKeys[0];
+      const todo = responseTodos[id];
+
+      cy.route('DELETE', `https://todo-list-2578a.firebaseio.com/todos/${idj}.json`, id);
 
       cy.get('.todo-list li')
           .as('list');
 
       cy.get('@list')
-          .findByText(todos[0].text)
+          .findByText(todo.text)
           .closest('li')
           .find('.destroy')
           .invoke('show')
           .click();
 
       cy.get('@list')
-          .should('not.have.text', todos[0].text);
+          .should('not.have.text', todo.text);
     });
   });
 });

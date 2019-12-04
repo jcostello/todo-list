@@ -19,8 +19,8 @@ export const fetchTodosFailed = (message) => ({
   type: 'FETCH_TODOS_FAILED', message: message,
 });
 
-export const toggleTodo = (id) => ({
-  type: 'TOGGLE_TODO_REQUEST', id: id,
+export const toggleTodo = (todo) => ({
+  type: 'TOGGLE_TODO_REQUEST', id: todo,
 });
 
 export const toggleTodoSucceeded = (todo) => ({
@@ -33,4 +33,12 @@ export const deleteTodo = (id) => ({
 
 export const deleteTodoSucceeded = (id) => ({
   type: 'DELETE_TODO_SUCCEEDED', id: id,
+});
+
+export const signUpUser = (history) => ({
+  type: 'SIGN_UP_REQUEST', history: history,
+});
+
+export const signUpSucceeded = (token) => ({
+  type: 'SIGN_UP_SUCCEEDED', token: token,
 });

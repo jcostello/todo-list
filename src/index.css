@@ -83,6 +83,14 @@ input[type="checkbox"] {
 	text-rendering: optimizeLegibility;
 }
 
+.auth-button {
+	text-transform: uppercase;
+	width: 50%;
+	line-height: 2em;
+	color: green;
+	font-size: 1.5em;
+}
+
 .add-todo,
 .edit {
 	position: relative;

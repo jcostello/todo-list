@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
-import App from './containers/App';
+import Todos from './containers/Todos';
+import Auth from './containers/Auth';
 import * as serviceWorker from './serviceWorker';
 
 import store from './store/store';
@@ -11,7 +13,12 @@ import './index.css';
 
 const root = (
   <Provider store={store}>
-    <App/>
+    <Router>
+      <Switch>
+        <Route path='/auth' component={Auth} />
+        <Route path='/' component={Todos} />
+      </Switch>
+    </Router>
   </Provider>
 );
 

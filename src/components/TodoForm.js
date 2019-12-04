@@ -16,10 +16,6 @@ const TodoForm = ({addTodo}) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  todos: state.todos,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   addTodo: (event, input) => {
     event.preventDefault();
@@ -30,4 +26,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
+export default connect(null, mapDispatchToProps)(TodoForm);
